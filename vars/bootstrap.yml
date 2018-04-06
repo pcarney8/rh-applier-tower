@@ -1,0 +1,26 @@
+---
+openshift_cluster_content:
+- object: projects
+  content:
+  - name: ci-cd
+    template: "https://raw.githubusercontent.com/redhat-cop/cluster-lifecycle/master/files/projectrequest/template.yml"
+    template_action: create
+    params: "{{ playbook_dir }}/params/projectrequests/ci-cd"
+    tags:
+    - projectrequests
+    - projectrequests-ci-cd
+  - name: dev
+    template: "https://raw.githubusercontent.com/redhat-cop/cluster-lifecycle/master/files/projectrequest/template.yml"
+    template_action: create
+    params: "{{ playbook_dir }}/params/projectrequests/dev"
+    tags:
+    - projectrequests
+    - projectrequests-dev
+- object: policy
+  content:
+  - name: dev-role-binding
+    template: https://raw.githubusercontent.com/rht-labs/labs-ci-cd/v3.7.4/openshift-templates/rolebinding-group/template.yaml
+    params: "{{ playbook_dir }}/params/rolebindings/team"
+    namespace: "{{ dev_namespace }}"
+    tags:
+    - projects

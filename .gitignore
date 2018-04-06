@@ -1,0 +1,10 @@
+casl-ansible
+params/secrets/
+*.retry
+
+#Eclipse stuff
+.project
+
+#IntelliJ stuff
+*.iml
+.idea/

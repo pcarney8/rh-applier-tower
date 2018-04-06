@@ -1,0 +1,75 @@
+---
+- name: Add Ansible Admin credential
+  tower_credential:
+    name: ansible-admin
+    description: Token for openshift
+    organization: Default
+    kind: machine #TODO
+    username: ansible-admin
+    state: present
+    tower_config_file: "~/tower_cli.cfg"
+- name: Add OpenShift Token credential
+  tower_credential:
+    name: openshift-token
+    description: Token for openshift
+    organization: Default
+    kind: cloud #TODO
+    state: present
+    tower_config_file: "~/tower_cli.cfg"
+- name: Add GitHub SSH Key credential
+  tower_credential:
+    name: "GitHub Deploy Key"
+    description: Token for openshift
+    organization: Default
+    kind: ssh # or scm?
+    ssh_key_data: "path_to_ssh_key/key"
+    state: present
+    tower_config_file: "~/tower_cli.cfg"
+- name: Add Ruby Project
+  tower_project:
+    name: "Ruby"
+    organization: "Default"
+    scm_type: git
+    scm_url: git@github.com/pcarney8/rh-applier-tower.git
+    scm_branch: master
+#    scm_credential: "GitHub Deploy Key"
+    scm_clean: True
+    scm_delete_on_update: True
+    scm_update_on_launch: True
+    state: present
+    tower_config_file: "~/tower_cli.cfg"
+- name: Add Ruby Inventory
+  tower_inventory:
+    name: Tower
+    description: "For Ruby playbooks"
+    organization: Default
+    state: present
+    tower_config_file: "~/tower_cli.cfg"
+- name: Setup Ruby Bootstrap Deploy job template
+  tower_job_template:
+    name: Ruby Bootstrap
+    become_enabled: True
+    job_type: run
+    inventory: Tower
+    project: Ruby
+    playbook: deploy.yml
+    machine_credential: ansible-admin
+    cloud_credential: openshift-token #TODO: CHECK THIS ONE
+    extra_vars_path: extra-vars/bootstrap.yml
+    forks: 4
+    state: present
+    tower_config_file: "~/tower_cli.cfg"
+- name: Setup Ruby App Deploy job template
+  tower_job_template:
+    name: Ruby App Deploy
+    become_enabled: True
+    job_type: run
+    inventory: Tower
+    project: Ruby
+    playbook: app-deploy.yml
+    machine_credential: ansible-admin
+    cloud_credential: openshift-token #TODO: CHECK THIS ONE
+    extra_vars_path: extra-vars/app-deploy.yml
+    forks: 4
+    state: present
+    tower_config_file: "~/tower_cli.cfg"

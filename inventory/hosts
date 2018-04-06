@@ -1,0 +1,8 @@
+#[seed-hosts]
+#localhost
+
+[bootstrap]
+localhost
+
+[application]
+localhost

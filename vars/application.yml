@@ -1,0 +1,10 @@
+---
+openshift_cluster_content:
+- object: ruby-components
+  content:
+  - name: ruby-ex
+    template: "{{ playbook_dir }}/templates/app/ruby.yml"
+    params: "{{ playbook_dir }}/params/ruby"
+    namespace: "{{ dev_namespace }}"
+    tags:
+    - app
