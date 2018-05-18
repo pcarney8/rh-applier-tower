@@ -2,9 +2,26 @@ casl-ansible
 params/secrets/
 *.retry
 
-#Eclipse stuff
-.project
-
-#IntelliJ stuff
+# IntelliJ
+.idea
 *.iml
-.idea/
+target
+
+# Eclipse
+.metadata
+.settings
+.classpath
+.project
+bin
+tmp
+
+# ignore generated project request params
+params/projectrequests/*
+!params/projectrequests/project.j2
+
+# Python
+*.pyc
+
+# Ansible
+*.retry
+

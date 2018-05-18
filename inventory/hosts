@@ -1,8 +1,5 @@
-#[seed-hosts]
-#localhost
-
 [bootstrap]
-localhost
+bootstrap
 
 [application]
-localhost
+application
