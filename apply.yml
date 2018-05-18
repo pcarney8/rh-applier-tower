@@ -9,10 +9,12 @@
         admin_binary: "/usr/bin/oc adm"
     ci_cd:
       namespace: ci-cd
-      display_name: CI/CD
     dev:
       namespace: dev
-      display_name: Dev
+    test:
+      namespace: test
+    prod:
+      namespace: prod
   tasks:
     - include_tasks: tasks/oc-setup.yml
       tags:
@@ -22,13 +24,5 @@
         name: casl-ansible/roles/openshift-login
       tags:
         - login
-    - name: replace project request params with variables
-      template:
-        src: "{{ playbook_dir }}/params/projectrequests/project.j2"
-        dest: "{{ playbook_dir }}/params/projectrequests/{{ item.namespace }}"
-      with_items:
-        - "{{ ci_cd }}"
-        - "{{ dev }}"
-      when: target == "bootstrap"
     - include_role:
         name: openshift-applier/roles/openshift-applier

@@ -1,4 +1,5 @@
 ---
+#TODO: CLEAN UP, TEST, AND FINISH THIS SETUP
 - name: Add Ansible Admin credential
   tower_credential:
     name: ansible-admin
